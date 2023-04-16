@@ -61,3 +61,10 @@ class TestTWICClient(TestCase):
             download_pgn_game.assert_called_once_with("pgn_url")
         
         assert result == "pgn_content"
+
+    def test_download_pgn_from_date_no_pgn_available(self):
+        with mock.patch.object(
+            self.client, "get_available_pgn_game_urls", return_value={}
+        ), mock.patch.object(self.client, "download_pgn_game", return_value="pgn_content"),\
+            self.assertRaises(ValueError):
+            self.client.download_pgn_from_date("2020-01-01")
