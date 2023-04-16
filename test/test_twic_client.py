@@ -75,3 +75,25 @@ class TestTWICClient(TestCase):
             ValueError
         ):
             self.client.download_pgn_from_date("2020-01-01")
+
+    def test_download_all_pgns(self):
+        with mock.patch.object(
+            self.client,
+            "get_available_pgn_game_urls",
+            return_value={
+                "2020-01-01": "pgn_url_1",
+                "2020-01-02": "pgn_url_2",
+            },
+        ), mock.patch.object(
+            self.client,
+            "download_pgn_game",
+            side_effect=["pgn_content_1", "pgn_content_2"],
+        ) as download_pgn_game:
+            result = self.client.download_all_pgns()
+            download_pgn_game.assert_any_call("pgn_url_1")
+            download_pgn_game.assert_any_call("pgn_url_2")
+
+        assert result == {
+            "2020-01-01": "pgn_content_1",
+            "2020-01-02": "pgn_content_2",
+        }
