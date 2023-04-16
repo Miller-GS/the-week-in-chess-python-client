@@ -25,7 +25,7 @@ class TestTWICClient(TestCase):
         </html>
         """
         with mock.patch(
-            "src.twic_client.requests.get", return_value=mock.Mock(text=response)
+            "twic.twic_client.requests.get", return_value=mock.Mock(text=response)
         ):
             result = self.client.get_available_pgn_game_urls()
 
@@ -46,7 +46,7 @@ class TestTWICClient(TestCase):
             zip_file.writestr("game.pgn", pgn_text)
 
         with mock.patch(
-            "src.twic_client.requests.get",
+            "twic.twic_client.requests.get",
             return_value=mock.Mock(content=zipped_pgn.getvalue()),
         ):
             result = self.client.download_pgn_game("https://theweekinchess.com")
