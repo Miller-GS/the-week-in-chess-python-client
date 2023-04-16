@@ -6,7 +6,9 @@ import datetime
 
 
 class TWICClient:
-    # This class is used to download PGN Games from the Week in Chess website.
+    """
+    This class is used to download PGN games from the Week in Chess website.
+    """
 
     DOWNLOAD_PAGE_URL = "https://theweekinchess.com/twic"
     BASE_ZIP_PAGE_URL = "https://theweekinchess.com/zips"
@@ -17,8 +19,10 @@ class TWICClient:
     }
 
     def get_available_pgn_game_urls(self) -> dict:
-        # Returns a dictionary of all the available PGN games on the Week in Chess website.
-        # The key is the date of the upload in yyyy-MM-dd, the value is the URL to download the PGN game.
+        """
+        Returns a dictionary with the available PGN games from the Week in Chess website.
+        The keys are the dates in yyyy-MM-dd format, and the values are the URLs to download the PGN games.
+        """
 
         response = requests.get(self.DOWNLOAD_PAGE_URL, headers=self.DEFAULT_HEADERS)
 
@@ -36,8 +40,11 @@ class TWICClient:
         return games
 
     def download_pgn_game(self, url: str) -> str:
-        # Download a PGN game from the Week in Chess website.
-        # Returns the PGN game as a string.
+        """
+        Download a PGN game from the Week in Chess website, from a specific URL.
+
+        Returns the PGN game as a string.
+        """
 
         headers = {
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:55.0) Gecko/20100101 Firefox/55.0",
@@ -49,8 +56,11 @@ class TWICClient:
         return pgn_content
 
     def download_pgn_from_date(self, date: str) -> str:
-        # Download a PGN game from the Week in Chess website, from a specific date specified in yyyy-MM-dd format.
-        # Returns the PGN game as a string.
+        """
+        Download a PGN game from the Week in Chess website, from a specific date.
+        The date must be in yyyy-MM-dd format.
+        Returns the PGN game as a string.
+        """
 
         available_games = self.get_available_pgn_game_urls()
         if date in available_games:
@@ -59,9 +69,11 @@ class TWICClient:
             raise ValueError(f"No game found for date {date}")
 
     def download_all_pgns(self) -> dict:
-        # Download all the PGN games from the Week in Chess website.
-        # Returns a dictionary of all the available PGN games on the Week in Chess website.
-        # The key is the date of the upload in yyyy-MM-dd, the value is the PGN content.
+        """
+        Download all the PGN games from the Week in Chess website.
+        Returns a dictionary of all the available PGN games on the Week in Chess website.
+        The key is the date of the upload in yyyy-MM-dd, the value is the PGN content.
+        """
 
         available_games = self.get_available_pgn_game_urls()
         games = {}
