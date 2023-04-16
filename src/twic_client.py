@@ -27,7 +27,7 @@ class TWICClient:
 
         for game in game_matches:
             # Convert the date to a yyyy-MM-dd format.
-            date = datetime.datetime.strptime(game[1], '%m/%d/%Y').strftime('%Y-%m-%d')
+            date = datetime.datetime.strptime(game[1], '%d/%m/%Y').strftime('%Y-%m-%d')
             games[date] = f'{self.BASE_ZIP_PAGE_URL}/twic{game[0]}g.zip'
 
         return games
@@ -67,3 +67,8 @@ class TWICClient:
             games[date] = self.download_pgn_game(url)
 
         return games
+
+if __name__ == '__main__':
+    # This is a simple example of how to use the TWICClient class.
+    client = TWICClient()
+    print(client.get_available_pgn_game_urls())
