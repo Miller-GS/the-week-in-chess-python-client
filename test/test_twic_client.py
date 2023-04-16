@@ -1,12 +1,13 @@
 from unittest import mock, TestCase
 from src.twic_client import TWICClient
 
+
 class TestTWICClient(TestCase):
     def setUp(self) -> None:
         self.client = TWICClient()
-        
+
     def test_get_available_pgn_game_urls(self):
-        response = '''<html>
+        response = """<html>
         <body>
             <table>
             <tr>
@@ -20,13 +21,16 @@ class TestTWICClient(TestCase):
             </table>
         </body>
         </html>
-        '''
-        with mock.patch('src.twic_client.requests.get', return_value=mock.Mock(text=response)):
+        """
+        with mock.patch(
+            "src.twic_client.requests.get", return_value=mock.Mock(text=response)
+        ):
             result = self.client.get_available_pgn_game_urls()
 
-        
-        self.assertEqual(result, {
-            '2023-03-06': 'https://theweekinchess.com/zips/twic1478g.zip',
-            '2023-02-27': 'https://theweekinchess.com/zips/twic1477g.zip'
-        })
-        
+        self.assertEqual(
+            result,
+            {
+                "2023-03-06": "https://theweekinchess.com/zips/twic1478g.zip",
+                "2023-02-27": "https://theweekinchess.com/zips/twic1477g.zip",
+            },
+        )
