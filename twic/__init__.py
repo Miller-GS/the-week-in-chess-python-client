@@ -1,1 +1,1 @@
-from twic_client import TWiCClient
+from .twic_client import TWICClient
