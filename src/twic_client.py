@@ -54,3 +54,16 @@ class TWICClient:
             return self.download_pgn_game(available_games[date])
         else:
             raise ValueError(f'No game found for date {date}')
+        
+    def download_all_pgns(self) -> dict:
+        # Download all the PGN games from the Week in Chess website.
+        # Returns a dictionary of all the available PGN games on the Week in Chess website.
+        # The key is the date of the upload in yyyy-MM-dd, the value is the PGN content.
+
+        available_games = self.get_available_pgn_game_urls()
+        games = {}
+
+        for date, url in available_games.items():
+            games[date] = self.download_pgn_game(url)
+
+        return games
