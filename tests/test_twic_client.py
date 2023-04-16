@@ -1,5 +1,5 @@
 from unittest import mock, TestCase
-from src.twic_client import TWICClient
+from twic.twic_client import TWICClient
 import io
 import zipfile
 
