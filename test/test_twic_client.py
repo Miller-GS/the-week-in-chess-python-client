@@ -1,5 +1,7 @@
 from unittest import mock, TestCase
 from src.twic_client import TWICClient
+import io
+import zipfile
 
 
 class TestTWICClient(TestCase):
@@ -34,3 +36,19 @@ class TestTWICClient(TestCase):
                 "2023-02-27": "https://theweekinchess.com/zips/twic1477g.zip",
             },
         )
+
+    def test_download_pgn_game(self):
+        pgn_text = "PGN GAME CONTENT"
+
+        # We need to compress the content, as the download_pgn_game method expects a zip file from the website.
+        zipped_pgn = io.BytesIO()
+        with zipfile.ZipFile(zipped_pgn, "w") as zip_file:
+            zip_file.writestr("game.pgn", pgn_text)
+
+        with mock.patch(
+            "src.twic_client.requests.get",
+            return_value=mock.Mock(content=zipped_pgn.getvalue()),
+        ):
+            result = self.client.download_pgn_game("https://theweekinchess.com")
+
+        assert result == pgn_text
