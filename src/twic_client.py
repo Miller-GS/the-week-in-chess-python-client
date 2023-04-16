@@ -22,7 +22,7 @@ class TWICClient:
         response = requests.get(self.DOWNLOAD_PAGE_URL, headers=self.DEFAULT_HEADERS)
 
         # Get the list of games from the HTML. First item from the tuple will be the ID, second will be the date.
-        game_matches = re.findall(r'<td>(.*)</td>\r\n<td>(\d{2}\/\d{2}\/\d{4})<\/td>', response.text)
+        game_matches = re.findall(r'<td>(.*)</td>\s*<td>(\d{2}\/\d{2}\/\d{4})<\/td>', response.text)
         games = {}
 
         for game in game_matches:
