@@ -6,4 +6,5 @@ setup(
     description="Python client for The Week in Chess",
     author="Gustavo Miller Santos",
     packages=["twic"],
+    install_requires=["requests", "chardet"],
 )
