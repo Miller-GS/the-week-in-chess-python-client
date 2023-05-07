@@ -1,4 +1,5 @@
 import requests
+import chardet
 import zipfile
 import io
 import re
@@ -51,7 +52,9 @@ class TWICClient:
         }
         response = requests.get(url, headers=headers)
         zip_file = zipfile.ZipFile(io.BytesIO(response.content))
-        pgn_content = zip_file.read(zip_file.namelist()[0]).decode("utf-8")
+        pgn_content_bytes = zip_file.read(zip_file.namelist()[0])
+        encoding = chardet.detect(pgn_content_bytes)["encoding"]
+        pgn_content = pgn_content_bytes.decode(encoding)
 
         return pgn_content
 
